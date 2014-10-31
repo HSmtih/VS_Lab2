@@ -1,0 +1,27 @@
+    - VERTEILTE SYSTEME: POLLARD RHO -
+    
+        Stack Overflow
+http://stackoverflow.com/questions/10830068/pollard-rho-factorization-method-implementation
+http://stackoverflow.com/questions/19741967/how-can-i-improve-this-pollards-rho-algorithm-to-handle-products-of-semi-large    
+http://stackoverflow.com/questions/10862358/pollard-rho-factorization-method-implementation-in-c
+
+        Wikipedia
+http://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm
+
+        Thesis Papers
+http://www.diva-portal.org/smash/get/diva2:19210/FULLTEXT01.pdf
+https://www.iacr.org/archive/asiacrypt2008/53500477/53500477.pdf
+http://www.hindawi.com/journals/jam/2012/635909/
+http://academic.reed.edu/physics/faculty/crandall/papers/parrho.pdf
+
+        Code examples
+http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
+http://www.cs.colorado.edu/~srirams/classes/doku.php/pollard_rho_tutorial
+http://programmingpraxis.com/2009/06/19/monte-carlo-factorization/
+http://introcs.cs.princeton.edu/java/78crypto/PollardRho.java.html
+https://comeoncodeon.wordpress.com/2010/09/18/pollard-rho-brent-integer-factorization/
+https://code.google.com/p/ecdlp-pollard/source/browse/#svn
+
+        Other
+http://www.jakebakermaths.org.uk/maths/javaappprimefactorfinderbigintegerswithmillerrabinandpollardsrhov14.html
+http://mathworld.wolfram.com/PollardRhoFactorizationMethod.html
