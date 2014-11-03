@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -Wextra -Wall -pedantic -fPIC -pthread -O2 -g    CMakeFiles/announce_4.dir/type_system/announce_4.cpp.o  -o ../bin/announce_4 -rdynamic ../lib/libcaf_core.so.0.11.0 ../lib/libcaf_io.so.0.11.0 ../lib/libcaf_core.so.0.11.0 -Wl,-rpath,/home/hector/Git/ActorFramework/build/lib 

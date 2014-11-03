@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -Wextra -Wall -pedantic    CMakeFiles/vslab.dir/src/main.cpp.o  -o vslab -rdynamic -ldl /home/hector/Git/VS_Lab2/actor-framework/build/lib/libcaf_core.so /home/hector/Git/VS_Lab2/actor-framework/build/lib/libcaf_io.so -Wl,-rpath,/home/hector/Git/VS_Lab2/actor-framework/build/lib 

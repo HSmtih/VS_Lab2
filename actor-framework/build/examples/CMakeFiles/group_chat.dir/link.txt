@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -Wextra -Wall -pedantic -fPIC -pthread -O2 -g    CMakeFiles/group_chat.dir/remote_actors/group_chat.cpp.o  -o ../bin/group_chat -rdynamic ../lib/libcaf_core.so.0.11.0 ../lib/libcaf_io.so.0.11.0 ../lib/libcaf_core.so.0.11.0 -Wl,-rpath,/home/hector/Git/ActorFramework/build/lib 

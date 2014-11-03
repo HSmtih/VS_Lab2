@@ -1,0 +1,1 @@
+/home/hector/Git/VS_Lab2/Code/build/CMakeFiles/vslab.dir
