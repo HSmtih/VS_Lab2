@@ -6,6 +6,8 @@
 
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/multiprecision/miller_rabin.hpp>
+#include <boost/math/common_factor.hpp>
+#include <boost/random/random_number_generator.hpp>
 
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"
@@ -17,12 +19,61 @@ using std::string;
 
 using boost::multiprecision::int512_t;
 using boost::multiprecision::miller_rabin_test;
+using boost::math::gcd_evaluator;
 
 using namespace caf;
 
 inline bool is_probable_prime(const int512_t& value) {
   // increase 25 to a higher value for higher accuracy
   return miller_rabin_test(value, 25);
+}
+
+int512_t generateRandomNumber(const int512_t& max, int seed) {
+		
+	if (seed <= 0) {
+		return seed;
+	}
+
+	int512_t x;
+	for (int512_t i = 0; i < max; i++) {
+		x = (x*x + seed % max);
+	} 
+
+	return x;
+}
+
+int512_t pollardRho(const int512_t& N, const int512_t& a) {
+
+	int seed = rand();
+
+	int512_t divisor;
+	int512_t x = generateRandomNumber(N, seed);
+	int512_t y = x;
+	int512_t p = 1;
+
+	if (N % 2 == 0) {
+		return 2;
+	}
+
+	do {
+		x = x * x;
+		x = x + a;
+		x = x % N;
+
+		y = y * y;
+		y = y + a;
+		y = y % N;
+
+		y = y * y;
+		y = y + a;
+		y = y % N;
+
+		divisor = y - x;
+		divisor = divisor % N;
+		p = gcd(divisor, N);	
+	} while (p == 1);
+
+	return p;
 }
 
 void run_server(long port) {
@@ -32,6 +83,7 @@ void run_server(long port) {
 void run_manager(long workers, const string& host, long port) {
   cout << "run_manager: implement me" << endl;
 }
+
 void run_client(const string& host, long port) {
   cout << "run_client: implement me" << endl;
 }
