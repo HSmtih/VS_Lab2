@@ -129,7 +129,7 @@ void run_client(const string& host, long port) {
 	int512_t number;	
 
 	cout << "what number whould you like to solve?" << endl;
-	cin >> number;
+	cin >> int512_t >> number;
 
 	try {
 		actor server = io::remote_actor(host, port);
