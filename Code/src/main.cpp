@@ -78,17 +78,121 @@ int512_t pollardRho(const int512_t& N, const int512_t& a) {
 	return p;
 }
 
-void serverTask() {
-	//	TODO: Server logic
-}
+class server : public event_based_actor {
+
+	long total_cpu_time = 0;
+
+	const actor* client;
+	vector<actor> workers;
+	vector<int512_t> primes;
+	vector<int512_t> divisor_queue;
+
+	inline bool is_probable_prime(const int512_t& value) {
+		// increase 25 to a higher value for higher accuracy
+ 		return miller_rabin_test(value, 25);
+	}
+
+public:
+	behavior make_behavior() override {
+
+		become (
+			on(atom("hello"), arg_match) >> [=](const actor& sender) {
+				workers.push_back(sender);
+			},
+
+			//	TODO: React to solution found and send message back to client, then remove client from memory
+			on(atom("work"), arg_match) >> [=](const actor& requester, const int512_t& number) {
+				if (!client) {
+					client = &requester;
+					send_new_number(number);
+				} else {
+					//	Ignore request if already working for a different client
+					//	TODO: Send back error message
+				}
+			},
+
+			on(atom("divisor"), arg_match) >> [=](const int512_t& new_divisor, const long& cpu_time) {
+				if (is_probable_prime(new_divisor)) {
+					primes.push_back(new_divisor);
+				} else {
+					divisor_queue.push_back(new_divisor);
+				}
+			
+				if (cpu_time > 0) {
+					total_cpu_time += cpu_time;
+				}
+
+				send_next_number();
+			},
+
+			on(atom("shutdown"), arg_match) >> [=]() {
+				cout << "server shutting down" << endl;
+				shutdown();
+			}
+
+		);
+		
+	}
+
+	void send_new_number(const int512_t& number) {
+		//	TODO
+	}
+
+	void send_next_number() {
+		//	TODO
+	}
+};
+
+class worker : public event_based_actor {
+
+	//	TODO: Work timout, worker will probably lock after recieving a message
+
+	const actor* master;
+
+public:
+	worker(const actor& server) {
+		master = &server;
+	}
+
+	behavior make_behavior() override {
+		become (
+			on(atom("newnumber"), arg_match) >> [=](const int512_t& number) {
+				int512_t divisor = solve_number(number);
+
+				auto msg = make_message("divisor", divisor);
+				self->send(master, msg);
+			},
+			on(atom("shutdown"), arg_match) >> [=]() {
+				shutdown();
+			}
+		);
+	}
+
+	int512_t solve_number(const int512_t& N) {
+		//	TODO
+	}
+
+};
+
+class client : public event_based_actor {
+
+public:
+
+	behavior make_behavior() override {
+
+		on("solution", arg_match) >> [=](const vector<int512_t>& solution) {
+			cout << "the solution was: " << endl;
+			for (int i = 0; i < solution.size(); i++) {
+				cout << solution[i] << endl;
+			}
+		};
+			
+	}
+};
 
 void managerTask(const actor& server) {
 
 } 
-
-void workerTask(const actor& server) {
-
-}
 
 void clientTask(const actor& server, const int512_t& N) {
 
@@ -96,25 +200,23 @@ void clientTask(const actor& server, const int512_t& N) {
 
 void run_server(long port) {
 
-	try {
-		auto server = spawn(serverTask);
-		io::publish(server, port);
+	cout << "staring server ..." << endl;
 
-		cout << "server running on port: " << port << endl;
-	} catch (int ex) {
-		cout << "there was an error!" << endl;
-	}
+	auto serverActor = spawn<server>();
+	io::publish(serverActor, port);
 
+	cout << "server running on port: " << port << endl;
 }
 
 void run_manager(long workers, const string& host, long port) {
 	
+	//	TODO: Does manager have anything else to do?
 	try {
 		actor server = io::remote_actor(host, port);
 		auto manager = spawn(managerTask, server);
 
 		for (long i = 0; i < workers; i++) {
-			spawn(workerTask, server);
+			spawn<worker>(server);
 		}
 
 		cout << "manager running and started " << workers << " workers" << endl;
@@ -133,7 +235,10 @@ void run_client(const string& host, long port) {
 
 	try {
 		actor server = io::remote_actor(host, port);
-		spawn(clientTask, server, number);		
+
+		spawn<client>();
+		auto msg = make_message("work", number);
+		self->send(server, msg);
 
 		cout << "client started and connected to server. solving number: " << number << endl;
 	} catch (int ex) {
@@ -186,6 +291,8 @@ int main(int argc, char** argv) {
     }
   });
 
+  cout << "waiting ..." << endl;
   await_all_actors_done();
+  cout << "all actors done" << endl;
   shutdown();
 }

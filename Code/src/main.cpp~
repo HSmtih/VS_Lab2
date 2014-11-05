@@ -78,17 +78,52 @@ int512_t pollardRho(const int512_t& N, const int512_t& a) {
 	return p;
 }
 
-void serverTask() {
-	//	TODO: Server logic
-}
+class server : public event_based_actor {
+
+	long total_cpu_time;
+
+	vector<actor> workers;
+	vector<int512_t> primes;
+	vector<int512_t> divisor_queue;
+
+	inline bool is_probable_prime(const int512_t& value) {
+		// increase 25 to a higher value for higher accuracy
+ 		return miller_rabin_test(value, 25);
+	}
+
+	behavior make_behavior(event_based_actor* self) override {
+		return {
+			on("hello", arg_match) >> [=](const actor& sender) {
+				workers.push_back(sender);
+			}
+
+			on("divisor", arg_match) >> [=](const int512_t& new_divisor, const long& cpu_time) {
+				if (is_probable_prime(new_divisor)) {
+					primes.push_back(new_divisor);
+				} else {
+					divisor_queue.push_back(new_divisor);
+				}
+			
+				if (cpu_time > 0) {
+					total_cpu_time += cpu_time;
+				}
+			}
+
+			on("shutdown", arg_match) >> [=]() {
+				shutdown();
+			}
+		}
+	}
+};
+
+
+
+
+
 
 void managerTask(const actor& server) {
 
 } 
-
-void workerTask(const actor& server) {
-
-}
 
 void clientTask(const actor& server, const int512_t& N) {
 
@@ -97,7 +132,7 @@ void clientTask(const actor& server, const int512_t& N) {
 void run_server(long port) {
 
 	try {
-		auto server = spawn(serverTask);
+		auto server = spawn<server>();
 		io::publish(server, port);
 
 		cout << "server running on port: " << port << endl;
@@ -109,12 +144,13 @@ void run_server(long port) {
 
 void run_manager(long workers, const string& host, long port) {
 	
+	//	TODO: Does manager have anything else to do?
 	try {
 		actor server = io::remote_actor(host, port);
 		auto manager = spawn(managerTask, server);
 
 		for (long i = 0; i < workers; i++) {
-			spawn(workerTask, server);
+			//spawn(workerTask, server);
 		}
 
 		cout << "manager running and started " << workers << " workers" << endl;
@@ -129,7 +165,7 @@ void run_client(const string& host, long port) {
 	int512_t number;	
 
 	cout << "what number whould you like to solve?" << endl;
-	cin >> int512_t >> number;
+	cin >> number;
 
 	try {
 		actor server = io::remote_actor(host, port);
