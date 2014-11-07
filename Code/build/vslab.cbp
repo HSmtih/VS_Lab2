@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="vslab" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/hector/Git/VS_Lab2/Code/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/hector/Git/VS_Lab2/Code/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="vslab">
+         <Option output="/home/hector/Git/VS_Lab2/Code/build/vslab" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hector/Git/VS_Lab2/Code/build" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/hector/Git/VS_Lab2/Code/." />
+            <Add directory="/home/hector/Git/VS_Lab2/Code/include" />
+            <Add directory="/home/hector/Git/VS_Lab2/Code/third_party" />
+            <Add directory="/home/hector/Git/VS_Lab2/actor-framework/libcaf_core" />
+            <Add directory="/home/hector/Git/VS_Lab2/actor-framework/libcaf_io" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 vslab" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="vslab/fast">
+         <Option output="/home/hector/Git/VS_Lab2/Code/build/vslab" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hector/Git/VS_Lab2/Code/build" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/hector/Git/VS_Lab2/Code/." />
+            <Add directory="/home/hector/Git/VS_Lab2/Code/include" />
+            <Add directory="/home/hector/Git/VS_Lab2/Code/third_party" />
+            <Add directory="/home/hector/Git/VS_Lab2/actor-framework/libcaf_core" />
+            <Add directory="/home/hector/Git/VS_Lab2/actor-framework/libcaf_io" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 vslab/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hector/Git/VS_Lab2/Code/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/hector/Git/VS_Lab2/Code/src/main.cpp">
+      </Unit>
+      <Unit filename="/home/hector/Git/VS_Lab2/Code/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/hector/Git/VS_Lab2/Code/FindLibcaf.cmake">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

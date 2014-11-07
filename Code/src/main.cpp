@@ -23,6 +23,8 @@ using boost::multiprecision::miller_rabin_test;
 using boost::math::gcd_evaluator;
 //using caf::io;
 
+//qT creator
+
 using namespace caf;
 
 inline bool is_probable_prime(const int512_t& value) {
@@ -82,7 +84,7 @@ class server : public event_based_actor {
 
 	long total_cpu_time = 0;
 
-	const actor* client;
+	actor client;
 	vector<actor> workers;
 	vector<int512_t> primes;
 	vector<int512_t> divisor_queue;
@@ -103,7 +105,7 @@ public:
 			//	TODO: React to solution found and send message back to client, then remove client from memory
 			on(atom("work"), arg_match) >> [=](const actor& requester, const int512_t& number) {
 				if (!client) {
-					client = &requester;
+					client = requester;
 					send_new_number(number);
 				} else {
 					//	Ignore request if already working for a different client
@@ -147,11 +149,11 @@ class worker : public event_based_actor {
 
 	//	TODO: Work timout, worker will probably lock after recieving a message
 
-	const actor* master;
+	const actor master;
 
 public:
-	worker(const actor& server) {
-		master = &server;
+	worker(const actor& server) : master { server }{
+		
 	}
 
 	behavior make_behavior() override {
@@ -160,7 +162,7 @@ public:
 				int512_t divisor = solve_number(number);
 
 				auto msg = make_message("divisor", divisor);
-				self->send(master, msg);
+				send(master, msg);
 			},
 			on(atom("shutdown"), arg_match) >> [=]() {
 				shutdown();
@@ -238,7 +240,7 @@ void run_client(const string& host, long port) {
 
 		spawn<client>();
 		auto msg = make_message("work", number);
-		self->send(server, msg);
+		anon_send(server, msg);
 
 		cout << "client started and connected to server. solving number: " << number << endl;
 	} catch (int ex) {
